@@ -80,22 +80,26 @@ def getInput(_message):
 def movePawn(_start, _end, _board):
     _col = getColour(_start, _board)
     if _col == 0:
-        _dir = 1
+        _dir = -1
     else:
-        _dir == -1
+        _dir == 1
 
+    #print(_dir)
+    #print(_start[1] == _end[1])
+    #print(getColour(_end, _board) == 2)
+    #print(" ")
+    #print(_col == 0 and _start[0] == 6 and getColour([5, _start[0]], _board) == 2 and _end[0] == 4)
+    #print(_col == 1 and _start[0] == 1 and getColour([2, _start[0]], _board) == 2 and _end[0] == 3)
+    #print(_end[0] - _start[0] == _dir)
+    #print(" ")
     if _end[0] - _start[0] == _dir and (_start[1] - _end[1] == 1 or _start[1] - _end[1] == -1) and getColour(_end, _board) == getOpponent(_col):
         deathMessage(_start, _end, _board)
-    elif _start[1] == _end[1] and getColour(_end, _board) == 2 and ((_col == 0 and _start[0] == 6 and getColour([5, _start[0]], _board) == 2) or (_col == 1 and _start[0] == 1 and getColour([2, _start[0]], _board) == 2) or _end[0] - _start[0] == _dir):
-        return True
-    else:
+    elif not (_start[1] == _end[1] and getColour(_end, _board) == 2 and ((_col == 0 and _start[0] == 6 and getColour([5, _start[0]], _board) == 2 and _end[0] == 4) or (_col == 1 and _start[0] == 1 and getColour([2, _start[0]], _board) == 2 and _end[0] == 3) or _end[0] - _start[0] == _dir)):
         print("Invalid move")
         return False
 
     updateBoard(_start, _end, _board)
-    return True
-
-    
+    return True 
 
 def move(_start, _end, _col, _board):
     if getColour(_start, _board) != _col:
@@ -112,5 +116,6 @@ def move(_start, _end, _col, _board):
 printBoard(board)
 start = getInput("Enter the space of the piece you would like to move: ")
 end = getInput("Enter the space of the location you would like to move the piece too: ")
-print(move(start, end, 0, board))
+move(start, end, 0, board)
+printBoard(board)
 
