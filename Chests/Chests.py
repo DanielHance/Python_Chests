@@ -84,14 +84,6 @@ def movePawn(_start, _end, _board):
     else:
         _dir == 1
 
-    #print(_dir)
-    #print(_start[1] == _end[1])
-    #print(getColour(_end, _board) == 2)
-    #print(" ")
-    #print(_col == 0 and _start[0] == 6 and getColour([5, _start[0]], _board) == 2 and _end[0] == 4)
-    #print(_col == 1 and _start[0] == 1 and getColour([2, _start[0]], _board) == 2 and _end[0] == 3)
-    #print(_end[0] - _start[0] == _dir)
-    #print(" ")
     if _end[0] - _start[0] == _dir and (_start[1] - _end[1] == 1 or _start[1] - _end[1] == -1) and getColour(_end, _board) == getOpponent(_col):
         deathMessage(_start, _end, _board)
     elif not (_start[1] == _end[1] and getColour(_end, _board) == 2 and ((_col == 0 and _start[0] == 6 and getColour([5, _start[0]], _board) == 2 and _end[0] == 4) or (_col == 1 and _start[0] == 1 and getColour([2, _start[0]], _board) == 2 and _end[0] == 3) or _end[0] - _start[0] == _dir)):
@@ -101,6 +93,35 @@ def movePawn(_start, _end, _board):
     updateBoard(_start, _end, _board)
     return True 
 
+def moveRook(_start, _end, _board):
+  
+    if getColour(_start, _board) != getColour(_end, _board) and (_start[0] == _end[0] or _start[1] == _end[1]):
+        _vector = [_start[0] - _end[0], _start[1] - _end[1]]
+        _check = [0, 0]
+        _size = abs(sum(_vector)) - 1
+
+        for i in range(_size):
+            _check[0] = _start[0] + (_vector[0] - i)
+            _check[1] = _start[1] + (_vector[1] - i)
+            if getColour(_check, _board) != 2:
+                print("Invalid move")
+                return False
+
+        if getColour(_end, _board) == getOpponent(getColour(_start, _board)):
+            deathMessage(_start, _end, _board)
+        updateBoard(_start, _end, _board)
+        return True
+
+    print("Invalid move")
+    return False
+
+
+
+
+
+
+
+
 def move(_start, _end, _col, _board):
     if getColour(_start, _board) != _col:
         return False
@@ -109,6 +130,8 @@ def move(_start, _end, _col, _board):
 
     if _piece == 0:
         return movePawn(_start, _end, _board)
+    elif _piece == 1:
+        return moveRook(_start, _end, _board)
     
     print("Error in move() something went VERY wrong!")
     return False
